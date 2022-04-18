@@ -2,32 +2,25 @@ package com.example.testapp_video2.screens.detailscreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
-import androidx.compose.runtime.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.movierow.MovieRow
+import com.example.movierow.models.Favorites
 import com.example.movierow.models.Movie
 import com.example.movierow.models.getMovieById
-import com.example.movierow.models.getMovies
 import com.example.movierow.widgets.HorizontalScrollableImageView
+import com.example.movierow.widgets.addFavorite
 
 
 @Composable
-fun DetailScreen( navController: NavController = rememberNavController(), movieId : String? = getMovies()[0].id) {
+fun DetailScreen( navController: NavController = rememberNavController(), movieId : String?, favorites: Favorites) {
     val movie = getMovieById( movieId = movieId )
 
     Scaffold(topBar = {
@@ -46,19 +39,23 @@ fun DetailScreen( navController: NavController = rememberNavController(), movieI
         }
     }) {
 
-        MainContent(movie = movie)
+        MainContent(movie = movie, favorites)
 
     }
 }
 
 @Composable
-fun MainContent( movie : Movie) {
+fun MainContent( movie : Movie, favorites: Favorites) {
     Surface(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()
     ) {
         Column() {
-            MovieRow(movie = movie)
+            MovieRow(movie = movie) {
+                addFavorite(movie = movie, isFav = favorites.checkMovie(movie)) {
+                    favorites.add(movie)
+                }
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
             Divider()

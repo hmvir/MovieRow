@@ -13,17 +13,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.movierow.models.Favorites
 import com.example.movierow.models.Movie
 import com.example.movierow.models.getMovies
 import com.example.movierow.widgets.MovieRow
+import com.example.movierow.widgets.addFavorite
 import com.example.testapp_video2.navigation.MovieScreens
 
 @Composable
-fun HomeScreen( navController: NavController = rememberNavController()) {
+fun HomeScreen( navController: NavController = rememberNavController(), favorites: Favorites) {
 
     var show by remember {mutableStateOf(false)}
+
+    val favorites: Favorites = viewModel()
+    favorites.favs
 
     Scaffold(
         topBar = {
@@ -65,13 +71,13 @@ fun HomeScreen( navController: NavController = rememberNavController()) {
         }
     ) {
 
-        MainContent(getMovies(), navController = navController)
+        MainContent(getMovies(), navController = navController, favorites)
 
     }
 }
 
 @Composable
-fun MainContent(movieList : List<Movie>, navController: NavController ) {
+fun MainContent(movieList : List<Movie>, navController: NavController, favorites: Favorites) {
     Surface(
 
         color = MaterialTheme.colors.background
@@ -79,9 +85,16 @@ fun MainContent(movieList : List<Movie>, navController: NavController ) {
 
     {
         LazyColumn {
-            items( movieList) { movie -> MovieRow(movie = movie) { movieId -> navController.navigate(
-                "${MovieScreens.DetailScreen.value}/$movieId")
+            items( movieList) { movie -> MovieRow(movie = movie) { movieId ->
+                navController.navigate(
+                    "${MovieScreens.DetailScreen.value}/$movieId"
+                )
+            {
+                addFavorite(movie = movie, isFav = favorites.checkMovie(movie)) {
+                    favorites.add(movie)
+                    }
                 }
+            }
            }
         }
     }

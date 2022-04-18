@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
@@ -32,8 +33,8 @@ import com.example.movierow.models.Movie
 @Composable
 fun MovieRow(
     movie : Movie,
-    onClickItem: ( String ) -> Unit = {}
-) {
+    onClickItem: ( String ) -> Unit = {},
+    favIcon: @Composable () -> Unit = {}) {
     var counter by remember {
         mutableStateOf(0)
     }
@@ -69,6 +70,7 @@ fun MovieRow(
                     contentScale = ContentScale.Crop,
                 )
             }
+            Icons.Default.FavoriteBorder
             Column() {
                 Text(text = movie.title, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 Text(text = "Director: ${movie.director}", fontSize = 12.sp)
@@ -119,6 +121,7 @@ fun MovieRow(
                         contentDescription = "Show hidden information",
                         modifier = Modifier.clickable { showHiddenInfo = !showHiddenInfo }
                     )
+                favIcon()
             }
         }
     }

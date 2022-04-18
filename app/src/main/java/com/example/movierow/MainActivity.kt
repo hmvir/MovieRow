@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.movierow.ui.theme.MovieRowTheme
 import com.example.movierow.models.Movie
 import com.example.movierow.models.getMovies
+import com.example.movierow.widgets.addFavorite
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MovieRow(movie: Movie ) {
+fun MovieRow(movie: Movie) {
 
     var showDetails by remember{mutableStateOf(false)}
 
@@ -161,8 +162,11 @@ fun MainContent(movieList: List<Movie>) {
                 .padding(20.dp)) {
 
             LazyColumn {
-                items(movieList) { movieTitle ->
-                    MovieRow(movieTitle)
+                items(movieList) { movieTitle -> MovieRow(movieTitle)}
+                        addFavorite(movie = movie, isFav = favorites.checkMovie(movie)) {
+                            favorites.add(movie)
+
+                    }
                 }
             }
         }
