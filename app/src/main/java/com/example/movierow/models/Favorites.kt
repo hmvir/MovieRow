@@ -16,7 +16,7 @@ class Favorites : ViewModel() {
     fun add(movie: Movie) {
         if (checkMovie(movie) == false){
             favorites.add(movie)
-        }
+        } else delete(movie)
     }
 
     fun delete(movie: Movie){

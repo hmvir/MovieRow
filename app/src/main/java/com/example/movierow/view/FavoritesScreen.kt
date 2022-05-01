@@ -16,14 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.movierow.models.Favorites
-import com.example.movierow.models.Movie
-import com.example.movierow.models.getMovies
 import com.example.movierow.navigation.MovieScreens
 import com.example.movierow.widgets.MovieRow
-import com.example.movierow.widgets.addFavorite
 
 @Composable
-fun FavoritesScreen(navController: NavController = rememberNavController(), favorites: Favorites) {
+fun FavoritesScreen(navController: NavController, favorites: Favorites) {
     Scaffold(topBar = {
         TopAppBar() {
             Row {
@@ -46,7 +43,7 @@ fun FavoritesScreen(navController: NavController = rememberNavController(), favo
             LazyColumn() {
                 items(movieList) { movie ->
                     MovieRow(movie, { movieId ->
-                        navController.navigate(route = "${MovieScreens.DetailScreen}/$movieId")
+                        navController.navigate(route = "${MovieScreens.DetailScreen.value}/$movieId")
                     })
                 }
             }
@@ -62,35 +59,10 @@ fun FavoritesScreen(navController: NavController = rememberNavController(), favo
                 ) {
                 Box(Modifier.wrapContentSize(Alignment.Center)) {
                     Text(
-                        text = "No Favourites selected",
+                        text = "No Favorites selected",
                         style = MaterialTheme.typography.body2
                     )
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun MainContent(navController: NavController = rememberNavController(), favorites: Favorites) {
-    val movies = listOf<Movie>(getMovies()[1], getMovies()[2], getMovies()[3], getMovies()[4])
-    Surface(
-        color = MaterialTheme.colors.background
-    ) {
-        LazyColumn{
-
-            items(items = movies) { movie ->
-                MovieRow(movie = movie, onClickItem = { movieId ->
-                    navController.navigate(
-                        "${MovieScreens.DetailScreen.value}/$movieId"
-                    )
-                }, favIcon = {
-                    addFavorite(
-                        movie = movie,
-                        isFav = favorites.checkMovie(movie),
-                        onSaveClick = { favorites.add(movie) })
-                }
-                )
             }
         }
     }

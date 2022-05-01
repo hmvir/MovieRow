@@ -11,12 +11,12 @@ import com.example.movierow.models.Favorites
 import com.example.movierow.models.favorites.FavoritesScreen
 import com.example.movierow.navigation.MovieScreens
 import com.example.movierow.view.HomeScreen
-import com.example.testapp_video2.screens.detailscreen.DetailScreen
+import com.example.movierow.view.detailscreen.DetailScreen
 
 @Composable
 fun MovieNavigation() {
-    val navController = rememberNavController()
 
+    val navController = rememberNavController()
     val favs: Favorites = viewModel()
 
     NavHost(navController = navController, startDestination = MovieScreens.HomeScreen.value) {

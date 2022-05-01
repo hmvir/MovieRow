@@ -1,4 +1,4 @@
-package com.example.testapp_video2.screens.detailscreen
+package com.example.movierow.view.detailscreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,7 +20,8 @@ import com.example.movierow.widgets.addFavorite
 
 
 @Composable
-fun DetailScreen( navController: NavController = rememberNavController(), movieId : String?, favorites: Favorites) {
+fun DetailScreen( navController: NavController, movieId : String?, favorites: Favorites) {
+
     val movie = getMovieById( movieId = movieId )
 
     Scaffold(topBar = {

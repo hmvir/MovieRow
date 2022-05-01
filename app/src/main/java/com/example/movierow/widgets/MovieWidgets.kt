@@ -35,6 +35,7 @@ fun MovieRow(
     movie : Movie,
     onClickItem: ( String ) -> Unit = {},
     favIcon: @Composable () -> Unit = {}) {
+
     var counter by remember {
         mutableStateOf(0)
     }

@@ -28,8 +28,11 @@ fun HomeScreen( navController: NavController = rememberNavController(), favorite
 
     var show by remember {mutableStateOf(false)}
 
+    /*
     val favorites: Favorites = viewModel()
     favorites.favs
+
+     */
 
     Scaffold(
         topBar = {
