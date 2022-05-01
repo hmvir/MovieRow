@@ -8,10 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.movierow.models.Favorites
-import com.example.testapp_video2.navigation.MovieScreens
+import com.example.movierow.models.favorites.FavoritesScreen
+import com.example.movierow.navigation.MovieScreens
+import com.example.movierow.view.HomeScreen
 import com.example.testapp_video2.screens.detailscreen.DetailScreen
-import com.example.testapp_video2.screens.favorites.FavoritesScreen
-import com.example.testapp_video2.screens.home.HomeScreen
 
 @Composable
 fun MovieNavigation() {

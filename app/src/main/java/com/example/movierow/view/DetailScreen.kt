@@ -51,7 +51,7 @@ fun MainContent( movie : Movie, favorites: Favorites) {
         .fillMaxHeight()
     ) {
         Column() {
-            MovieRow(movie = movie) {
+            MovieRow(movie = movie, onItemClick = {}) {
                 addFavorite(movie = movie, isFav = favorites.checkMovie(movie)) {
                     favorites.add(movie)
                 }

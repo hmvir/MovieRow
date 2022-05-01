@@ -1,4 +1,4 @@
-package com.example.testapp_video2.screens.favorites
+package com.example.movierow.models.favorites
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,12 +18,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.movierow.models.Favorites
 import com.example.movierow.models.Movie
 import com.example.movierow.models.getMovies
+import com.example.movierow.navigation.MovieScreens
 import com.example.movierow.widgets.MovieRow
-import com.example.testapp_video2.navigation.MovieScreens
+import com.example.movierow.widgets.addFavorite
 
 @Composable
 fun FavoritesScreen(navController: NavController = rememberNavController(), favorites: Favorites) {
-    Scaffold( topBar = {
+    Scaffold(topBar = {
         TopAppBar() {
             Row {
                 Icon(imageVector = Icons.Default.ArrowBack,
@@ -33,31 +34,30 @@ fun FavoritesScreen(navController: NavController = rememberNavController(), favo
                     }
                 )
                 Spacer(modifier = Modifier.width(20.dp))
-                Text(text ="My Favorite Movies")
+                Text(text = "My Favorite Movies")
             }
         }
-    } )
+    })
+
+    {
 
         val movieList = favorites.favs
-        if(movieList.isEmpty() == false){
+        if (movieList.isEmpty() == false) {
             LazyColumn() {
                 items(movieList) { movie ->
                     MovieRow(movie, { movieId ->
                         navController.navigate(route = "${MovieScreens.DetailScreen}/$movieId")
                     })
-
                 }
-
             }
-        }
-        else{
+        } else {
             Card(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(top= 40.dp, start = 20.dp, end = 20.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 40.dp, start = 20.dp, end = 20.dp)
                     .height(200.dp),
                 backgroundColor = MaterialTheme.colors.primary,
-                shape = RoundedCornerShape(corner = CornerSize(16.dp))
-                ,
+                shape = RoundedCornerShape(corner = CornerSize(16.dp)),
 
                 ) {
                 Box(Modifier.wrapContentSize(Alignment.Center)) {
@@ -67,26 +67,30 @@ fun FavoritesScreen(navController: NavController = rememberNavController(), favo
                     )
                 }
             }
-
         }
-
-    }
-
     }
 }
 
 @Composable
-fun MainContent(navController: NavController = rememberNavController()) {
-    val movies = listOf<Movie>(getMovies()[1], getMovies()[2], getMovies()[3], getMovies()[4] )
+fun MainContent(navController: NavController = rememberNavController(), favorites: Favorites) {
+    val movies = listOf<Movie>(getMovies()[1], getMovies()[2], getMovies()[3], getMovies()[4])
     Surface(
         color = MaterialTheme.colors.background
     ) {
-        LazyColumn {
+        LazyColumn{
 
-            items( movies) { movie -> MovieRow(movie = movie) { movieId -> navController.navigate(
-                "${MovieScreens.DetailScreen.value}/$movieId")
+            items(items = movies) { movie ->
+                MovieRow(movie = movie, onClickItem = { movieId ->
+                    navController.navigate(
+                        "${MovieScreens.DetailScreen.value}/$movieId"
+                    )
+                }, favIcon = {
+                    addFavorite(
+                        movie = movie,
+                        isFav = favorites.checkMovie(movie),
+                        onSaveClick = { favorites.add(movie) })
                 }
-
+                )
             }
         }
     }

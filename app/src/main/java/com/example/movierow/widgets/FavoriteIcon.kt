@@ -17,7 +17,8 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun addFavorite(
-    movie: Movie, isFav: Boolean,
+    movie: Movie,
+    isFav: Boolean,
     onSaveClick: (Movie) -> Unit = {}
 ) {
     Row(

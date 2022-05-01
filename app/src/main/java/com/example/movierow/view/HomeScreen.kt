@@ -1,4 +1,4 @@
-package com.example.testapp_video2.screens.home
+package com.example.movierow.view
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -19,9 +19,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.movierow.models.Favorites
 import com.example.movierow.models.Movie
 import com.example.movierow.models.getMovies
+import com.example.movierow.navigation.MovieScreens
 import com.example.movierow.widgets.MovieRow
 import com.example.movierow.widgets.addFavorite
-import com.example.testapp_video2.navigation.MovieScreens
 
 @Composable
 fun HomeScreen( navController: NavController = rememberNavController(), favorites: Favorites) {
@@ -77,7 +77,7 @@ fun HomeScreen( navController: NavController = rememberNavController(), favorite
 }
 
 @Composable
-fun MainContent(movieList : List<Movie>, navController: NavController, favorites: Favorites) {
+fun MainContent(movieList : List<Movie> = getMovies(), navController: NavController, favorites: Favorites) {
     Surface(
 
         color = MaterialTheme.colors.background
@@ -85,17 +85,15 @@ fun MainContent(movieList : List<Movie>, navController: NavController, favorites
 
     {
         LazyColumn {
-            items( movieList) { movie -> MovieRow(movie = movie) { movieId ->
-                navController.navigate(
-                    "${MovieScreens.DetailScreen.value}/$movieId"
-                )
-            {
-                addFavorite(movie = movie, isFav = favorites.checkMovie(movie)) {
-                    favorites.add(movie)
-                    }
+            items(items = movieList) { movie ->
+                MovieRow(movie = movie, onClickItem = { movieId ->
+                    navController.navigate(
+                        "${MovieScreens.DetailScreen.value}/$movieId"
+                    )
+                }, favIcon = {
+                    addFavorite(movie = movie, isFav = favorites.checkMovie(movie), onSaveClick = { favorites.add(movie) })
                 }
-            }
-           }
+            )}
         }
     }
 }

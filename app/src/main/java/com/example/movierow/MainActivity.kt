@@ -24,35 +24,41 @@ import androidx.compose.ui.unit.dp
 import com.example.movierow.ui.theme.MovieRowTheme
 import com.example.movierow.models.Movie
 import com.example.movierow.models.getMovies
-import com.example.movierow.widgets.addFavorite
+import com.example.movierow.nav.MovieNavigation
+import com.example.movierow.view.MainContent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            MovieNavigation()
+            /*
             MovieRowTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     //modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainContent(movieList = getMovies())
+                    MainContent(movieList = getMovies(), )
                 }
             }
+
+             */
         }
     }
 }
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MovieRow(movie: Movie) {
+fun MovieRow(movie: Movie, onItemClick: (String) -> Unit = {}, favIcon: @Composable () -> Unit = {}) {
 
     var showDetails by remember{mutableStateOf(false)}
 
     Card(
         modifier = Modifier
             .padding(4.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onItemClick(movie.id) },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         elevation = 6.dp
     )
@@ -89,13 +95,17 @@ fun MovieRow(movie: Movie) {
 
         }
 
+        favIcon()
 
     }
 }
 
 @Composable
 fun MovieDetails(m: Movie){
-    Box(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(4.dp))
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+        .padding(4.dp))
     {
         Column() {
             Text(text ="Plot: ${m.plot}", style= MaterialTheme.typography.body2)
@@ -110,7 +120,7 @@ fun MovieDetails(m: Movie){
 }
 
 
-
+/*
 @Composable
 fun MainContent(movieList: List<Movie>) {
 
@@ -172,6 +182,8 @@ fun MainContent(movieList: List<Movie>) {
         }
     }
 }
+
+ */
 
 /*
 @Preview(showBackground = true)
